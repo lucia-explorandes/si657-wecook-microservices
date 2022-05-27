@@ -1,0 +1,56 @@
+package com.example.demo.entities;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name ="comments")
+@Data
+public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Lob
+    private String text;
+
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name="recipe_id",nullable = false)
+    @JsonIgnore
+    private Recipe recipe;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Comment setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Comment setText(String text) {
+        this.text = text;
+        return this;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public Comment setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+        return this;
+    }
+
+}
+
