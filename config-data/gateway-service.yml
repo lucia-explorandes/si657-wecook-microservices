@@ -1,10 +1,10 @@
 server:
-  port: 8093
+  port: 8080
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8099/eureka/
 
 spring:
   cloud:
@@ -21,3 +21,7 @@ spring:
           uri: lb://recipe-service
           predicates:
             - Path=/recipes/**
+        - id: cookbook-service
+            uri: lb://cookbook-service
+            predicates:
+              - Path=/cookbooks/**
