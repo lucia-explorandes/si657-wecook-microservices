@@ -21,5 +21,9 @@ spring:
           uri: lb://recipe-service
           predicates:
             - Path=/recipes/**
+        - id: cookbook-service
+            uri: lb://cookbook-service
+            predicates:
+              - Path=/cookbooks/**
         
 
