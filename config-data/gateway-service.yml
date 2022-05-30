@@ -13,6 +13,10 @@ spring:
         locator:
           enabled: true
       routes:
+        - id: cookbook-service
+          uri: lb://cookbook-service
+          predicates:
+            - Path=/cookbooks/**
         - id: profile-service
           uri: lb://profile-service
           predicates:
@@ -21,9 +25,4 @@ spring:
           uri: lb://recipe-service
           predicates:
             - Path=/recipes/**
-        - id: cookbook-service
-            uri: lb://cookbook-service
-            predicates:
-              - Path=/cookbooks/**
-        
-
+            
