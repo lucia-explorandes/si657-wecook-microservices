@@ -29,4 +29,5 @@ spring:
           uri: lb://subscription-service
           predicates:
             - Path=/subscriptions/**
+            - Path=/tips/**
             
