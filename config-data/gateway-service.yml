@@ -28,5 +28,5 @@ spring:
         - id: subscription-service
             uri: lb://subscription-service
             predicates:
-              - Path=/subscription/**
+              - Path=/subscriptions/**
             
