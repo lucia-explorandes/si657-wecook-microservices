@@ -26,7 +26,7 @@ spring:
           predicates:
             - Path=/recipes/**
         - id: subscription-service
-            uri: lb://subscription-service
-            predicates:
-              - Path=/subscriptions/**
+          uri: lb://subscription-service
+          predicates:
+            - Path=/subscriptions/**
             
