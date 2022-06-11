@@ -1,21 +1,30 @@
 package com.example.demo.services.impls;
 
 
+import com.example.demo.client.ProfileClient;
+import com.example.demo.entities.Comment;
 import com.example.demo.entities.Score;
+import com.example.demo.model.Profile;
 import com.example.demo.respositories.RecipeRepository;
 import com.example.demo.respositories.ScoreRepository;
 import com.example.demo.services.ScoreService;
 import com.example.demo.exception.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ScoreServiceImpl implements ScoreService {
     @Autowired
     private ScoreRepository scoreRepository;
 
+    @Qualifier("com.example.demo.client.ProfileClient")
+    @Autowired
+    ProfileClient profileClient;
     @Autowired
     private RecipeRepository recipeRepository;
 /*
@@ -39,8 +48,12 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Score findById(Long aLong) throws Exception {
-        return scoreRepository.findById(aLong)
-                .orElseThrow(()->new ResourceNotFoundException(""));
+        Score score = scoreRepository.findById(aLong).orElse(null);
+        if (null!=score){
+            Profile profile = profileClient.getProfile(score.getProfileId()).getBody();
+            score.setProfile(profile);
+        }
+        return score;
     }
 
     @Override

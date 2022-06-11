@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-@RequestMapping("/comments")
+@RequestMapping("/recipes/comments")
 public class CommentsController {
 
     @Autowired

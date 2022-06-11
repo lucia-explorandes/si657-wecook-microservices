@@ -1,6 +1,8 @@
 package com.example.demo.entities;
 
 
+import com.example.demo.model.Cookbook;
+import com.example.demo.model.Profile;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,6 +32,18 @@ public class Recipe{
 
     @NotNull
     private String recommendation;
+
+    @Column(name = "profile_id")
+    private Long profileId;
+
+    @Transient
+    private Profile profile;
+
+    @Column(name = "cookbook_id")
+    private Long cookbookId;
+
+    @Transient
+    private Cookbook cookbook;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "multimedia_id",nullable = false)
@@ -144,5 +158,23 @@ public class Recipe{
 
     public void addMultimedia(Multimedia multimedia){
         this.getMultimedia().add(multimedia);
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public Recipe setProfileId(Long profileId) {
+        this.profileId = profileId;
+        return this;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public Recipe setProfile(Profile profile) {
+        this.profile = profile;
+        return this;
     }
 }

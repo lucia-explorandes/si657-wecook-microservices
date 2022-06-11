@@ -86,6 +86,16 @@ public class RecipesController {
         return ingredients;
     }
 
+    @GetMapping(path = "profiles/{profileId}/recipes")
+    public List<Recipe> getAllRecipesByProfileId(@PathVariable("profileId") Long profileId){
+        return recipeService.getAllRecipesByProfileId(profileId);
+    }
+
+    @GetMapping(path = "cookbooks/{cookbookId}/recipes")
+    public List<Recipe> getAllRecipesByCookbookId(@PathVariable("cookbookId") Long cookbookId){
+        return recipeService.getAllRecipesByCookbookId(cookbookId);
+    }
+
     @PostMapping
     public ResponseEntity<Recipe> createRecipe(@Valid @RequestBody Recipe recipe, BindingResult result){
         if (result.hasErrors()){

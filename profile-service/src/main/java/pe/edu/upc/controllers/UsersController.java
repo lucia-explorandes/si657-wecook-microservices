@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/profiles/users")
 public class UsersController {
 
     @Autowired

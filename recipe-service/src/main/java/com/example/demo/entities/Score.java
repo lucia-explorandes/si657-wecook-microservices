@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 
+import com.example.demo.model.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -24,6 +25,11 @@ public class Score{
     @JsonIgnore
     private Recipe recipe;
 
+    @Column(name = "profile_id")
+    private Long profileId;
+
+    @Transient
+    private Profile profile;
     public Long getId() {
         return id;
     }

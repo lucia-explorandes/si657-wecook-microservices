@@ -51,6 +51,11 @@ public class CookbookController {
         }
     }
 
+    @GetMapping(path = "profiles/{profileId}/cookbooks")
+    public List<Cookbook> getAllCookbooksByProfileId(@PathVariable("profileId") Long profileId){
+        return cookbookService.getAllCookbooksByProfileId(profileId);
+    }
+
     @PostMapping
     public ResponseEntity<Cookbook> createCookbook(@Valid @RequestBody Cookbook resource, BindingResult result) {
         if (result.hasErrors()) {

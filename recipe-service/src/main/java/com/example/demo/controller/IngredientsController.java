@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-@RequestMapping("/ingredients")
+@RequestMapping("/recipes/ingredients")
 public class IngredientsController {
 
     @Autowired
@@ -54,7 +54,7 @@ public class IngredientsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ingredientDB);
     }
 
-    @GetMapping(path = "/{ingredientId}")
+    @GetMapping(value = "/{ingredientId}")
     public ResponseEntity<Ingredient> getIngredientById(@PathVariable("ingredientId") Long ingredientId){
         try {
             Ingredient ingredient = ingredientService.findById(ingredientId);

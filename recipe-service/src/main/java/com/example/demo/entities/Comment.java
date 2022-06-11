@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 
+import com.example.demo.model.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -19,7 +20,11 @@ public class Comment {
     @Lob
     private String text;
 
+    @Column(name = "profile_id")
+    private Long profileId;
 
+    @Transient
+    private Profile profile;
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name="recipe_id",nullable = false)
     @JsonIgnore
@@ -52,5 +57,22 @@ public class Comment {
         return this;
     }
 
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public Comment setProfileId(Long profileId) {
+        this.profileId = profileId;
+        return this;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public Comment setProfile(Profile profile) {
+        this.profile = profile;
+        return this;
+    }
 }
 

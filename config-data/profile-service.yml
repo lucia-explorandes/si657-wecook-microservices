@@ -42,7 +42,7 @@ logging:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_SERVER:http://registry-service:8761/eureka/}
+      defaultZone: http://registry-service:8761/eureka/
 
 management:
   endpoints:

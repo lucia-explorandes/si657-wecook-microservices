@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-@RequestMapping("/tips")
+@RequestMapping("/subscriptions/tips")
 public class TipsController {
 
     @Autowired

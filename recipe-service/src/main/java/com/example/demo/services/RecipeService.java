@@ -21,5 +21,9 @@ public interface RecipeService extends CrudService<Recipe,Long> {
     Recipe assignRecipeIngredient(Long recipeId, Long ingredientId);
 
     Recipe unassignRecipeIngredient(Long recipeId, Long ingredientId);
+
+    List<Recipe> getAllRecipesByProfileId(Long profileId);
+
+    List<Recipe> getAllRecipesByCookbookId(Long cookbookId);
 }
 

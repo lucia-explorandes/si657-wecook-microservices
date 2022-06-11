@@ -1,13 +1,17 @@
 package com.example.demo.services.impls;
 
 
+import com.example.demo.client.ProfileClient;
 import com.example.demo.entities.Ingredient;
 import com.example.demo.entities.Recipe;
 import com.example.demo.entities.Tag;
+import com.example.demo.model.Profile;
 import com.example.demo.respositories.*;
 import com.example.demo.services.RecipeService;
 import com.example.demo.exception.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
@@ -29,6 +34,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     private MultimediaRepository multimediaRepository;
+
+    @Qualifier("com.example.demo.client.ProfileClient")
+    @Autowired
+    ProfileClient profileClient;
 
     @Autowired
     private IngredientRepository ingredientRepository;
@@ -46,8 +55,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long aLong) throws Exception {
-        return recipeRepository.findById(aLong)
-                .orElseThrow(()->new ResourceNotFoundException("Recipe","Id",aLong));
+       Recipe recipe = recipeRepository.findById(aLong).orElse(null);
+       if (null!=recipe){
+           Profile profile = profileClient.getProfile(recipe.getProfileId()).getBody();
+           recipe.setProfile(profile);
+       }
+       return recipe;
     }
 
     @Override
@@ -55,6 +68,7 @@ public class RecipeServiceImpl implements RecipeService {
        Recipe recipe = recipeRepository.findById(aLong)
                .orElseThrow(()->new ResourceNotFoundException("Recipe","Id",aLong));
        recipe.setName(entity.getName())
+               .setProfileId(entity.getProfileId())
                .setExclusive(entity.isExclusive())
                .setPreparation(entity.getPreparation())
                .setRecommendation(entity.getRecommendation())
@@ -129,6 +143,16 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findById(recipeId).map(
                 recipe -> recipeRepository.save(recipe.unassignIngredient(ingredient))
         ).orElseThrow(()->new ResourceNotFoundException("Recipe","Id",recipeId));
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByProfileId(Long profileId) {
+        return recipeRepository.findRecipesByProfileId(profileId).orElse(null);
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByCookbookId(Long cookbookId) {
+        return recipeRepository.findRecipesByCookbookId(cookbookId).orElse(null);
     }
 }
 
