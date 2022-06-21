@@ -1,0 +1,71 @@
+package pe.edu.upc.services.impls;
+
+
+
+import pe.edu.upc.entities.Recipe;
+import pe.edu.upc.entities.Tag;
+import pe.edu.upc.respositories.TagRepository;
+import pe.edu.upc.services.TagService;
+import pe.edu.upc.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TagServiceImpl implements TagService {
+
+    @Autowired
+    private TagRepository tagRepository;
+
+
+    @Override
+    public Tag createTag(Tag tag) {
+        return tagRepository.save(tag);
+    }
+
+    @Override
+    public List<Recipe> getAllRecipesByTagId(Long tagId) {
+        return tagRepository.findById(tagId).map(
+                tag->{ List<Recipe> recipes=tag.getRecipes();
+                    return recipes;
+                }).orElseThrow(()->new ResourceNotFoundException("Tag","Id",tagId));
+    }
+
+    @Override
+    public Tag getTagByName(String name) {
+        return tagRepository.findByName(name)
+                .orElseThrow(()->new ResourceNotFoundException("Tag","Name",name));
+    }
+
+    @Override
+    public List<Tag> findAll() throws Exception {
+        return tagRepository.findAll();
+    }
+
+    @Override
+    public Tag findById(Long aLong) throws Exception {
+        return tagRepository.findById(aLong)
+                .orElseThrow(()->new ResourceNotFoundException("Tag","Id",aLong));
+    }
+
+    @Override
+    public Tag update(Tag entity, Long aLong) throws Exception {
+        Tag tag = tagRepository.findById(aLong)
+                .orElseThrow(()->new ResourceNotFoundException("Tag","Id",aLong));
+        tag.setName(entity.getName());
+        return tagRepository.save(tag);
+    }
+
+    @Override
+    public void deleteById(Long aLong) throws Exception {
+        Tag tag = tagRepository.findById(aLong)
+                .orElseThrow(()->new ResourceNotFoundException("Tag","Id",aLong));
+        tagRepository.deleteById(aLong);
+    }
+}
+

@@ -15,4 +15,6 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8086
+        discovery:
+          enabled: true
+          serviceId: admin-service
